@@ -53,6 +53,8 @@ jobs:
             > /etc/portage/repos.conf/animecix.conf
           echo 'media-video/animecix ~amd64' \
             > /etc/portage/package.accept_keywords/animecix
+          echo 'x11-base/xorg-server xvfb' \
+            > /etc/portage/package.use/animecix
           echo 'USE="X"' >> /etc/portage/make.conf
       - name: Derle ve kur
         env:
