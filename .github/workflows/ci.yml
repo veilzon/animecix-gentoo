@@ -25,8 +25,11 @@ jobs:
       - name: pkgcheck
         env:
           ACCEPT_KEYWORDS: "~amd64"
+          FEATURES: "getbinpkg -sandbox -usersandbox"
+          EMERGE_DEFAULT_OPTS: "--getbinpkg --usepkg"
         run: |
-          emerge -q app-portage/pkgcheck
+          getuto
+          emerge -q dev-util/pkgcheck
           pkgcheck scan --net
 
   emerge:
@@ -50,12 +53,14 @@ jobs:
             > /etc/portage/repos.conf/animecix.conf
           echo 'media-video/animecix ~amd64' \
             > /etc/portage/package.accept_keywords/animecix
+          echo 'USE="X"' >> /etc/portage/make.conf
       - name: Derle ve kur
         env:
-          ACCEPT_KEYWORDS: "~amd64"
-          FEATURES: "-sandbox -usersandbox -ipc-sandbox -network-sandbox -pid-sandbox"
+          FEATURES: "getbinpkg -sandbox -usersandbox -ipc-sandbox -network-sandbox -pid-sandbox"
+          EMERGE_DEFAULT_OPTS: "--getbinpkg --usepkg"
         run: |
-          emerge --autounmask-continue=y -av media-video/animecix
+          getuto
+          emerge --autounmask-continue=y -v media-video/animecix
           emerge -q x11-misc/xvfb
       - name: Duman testi
         run: |
