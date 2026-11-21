@@ -8,14 +8,9 @@ AnimeciX için resmî olmayan Gentoo overlay'i. Uygulama kaynaktan derlenir;
 ```bash
 sudo eselect repository add animecix git https://github.com/veilzon/animecix-gentoo.git
 sudo emaint sync -r animecix
-sudo emerge -av media-video/animecix
-```
-
-`~amd64` kabul edilmelidir:
-
-```bash
 sudo mkdir -p /etc/portage/package.accept_keywords
 echo 'media-video/animecix ~amd64' | sudo tee /etc/portage/package.accept_keywords/animecix
+sudo emerge -av media-video/animecix
 ```
 
 ## Güncelleme
