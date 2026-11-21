@@ -1,0 +1,37 @@
+name: Manifest
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  manifest:
+    name: Manifest üret
+    runs-on: ubuntu-24.04
+    container:
+      image: docker.io/gentoo/stage3:latest
+    timeout-minutes: 30
+    steps:
+      - name: Git kur ve senkronize et
+        run: |
+          emerge --sync
+          emerge -q dev-vcs/git
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Manifest oluştur
+        run: |
+          cd media-video/animecix
+          ebuild animecix-*.ebuild manifest
+      - name: Commit ve push
+        run: |
+          git config user.name "veilzon"
+          git config user.email "veilzon@users.noreply.github.com"
+          git add media-video/animecix/Manifest
+          if git diff --cached --quiet; then
+            echo "Manifest değişmedi"
+            exit 0
+          fi
+          git commit -m "chore: update Manifest"
+          git push

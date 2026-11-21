@@ -44,8 +44,9 @@ Yeni bir AnimeciX tag'i yayınlandığında:
 ./scripts/bump.sh v1.4.6
 ```
 
-Betik yeni ebuild'i oluşturur, crate listesini `Cargo.lock`'tan yeniler ve
-`Manifest`'i Gentoo container'ında üretir.
+Betik yeni ebuild'i oluşturur ve crate listesini `Cargo.lock`'tan yeniler.
+`Manifest` üretimi CI'daki `Manifest` işiyle yapılır; yerelde Podman/Docker
+çalıştırılmaz.
 
 ## Kapsam
 

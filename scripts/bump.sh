@@ -63,12 +63,11 @@ echo "yazıldı: $EBUILD"
 
 if command -v ebuild >/dev/null 2>&1; then
 	(cd "$PKGDIR" && ebuild "animecix-${PV}.ebuild" manifest)
-elif command -v podman >/dev/null 2>&1; then
-	podman run --rm -v "$PWD:/repo:Z" -w "/repo/${PKGDIR}" \
-		docker.io/gentoo/stage3:latest bash -lc \
-		"emerge --sync >/dev/null && ebuild animecix-${PV}.ebuild manifest"
+	echo "Manifest hazır: ${PKGDIR}/Manifest"
 else
-	die "ebuild veya podman bulunamadı; Manifest üretilemedi"
+	echo "Manifest yerelde üretilmedi."
+	echo "Ebuild'i commit edip CI'daki Manifest işini çalıştırın:"
+	echo "  git add ${PKGDIR}/animecix-${PV}.ebuild"
+	echo "  git commit -m 'chore: bump to ${TAG}' && git push"
+	echo "  gh workflow run manifest.yml -R veilzon/animecix-gentoo"
 fi
-
-echo "Manifest hazır: ${PKGDIR}/Manifest"
