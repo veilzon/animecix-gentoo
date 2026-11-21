@@ -1,0 +1,64 @@
+name: Gentoo overlay CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pkgcheck:
+    name: pkgcheck
+    runs-on: ubuntu-24.04
+    container:
+      image: docker.io/gentoo/stage3:latest
+    timeout-minutes: 30
+    steps:
+      - name: Git kur ve senkronize et
+        run: |
+          emerge --sync
+          emerge -q dev-vcs/git
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pkgcheck
+        env:
+          ACCEPT_KEYWORDS: "~amd64"
+        run: |
+          emerge -q app-portage/pkgcheck
+          pkgcheck scan --net
+
+  emerge:
+    name: emerge (tam derleme)
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-24.04
+    container:
+      image: docker.io/gentoo/stage3:latest
+    timeout-minutes: 120
+    steps:
+      - name: Git kur ve senkronize et
+        run: |
+          emerge --sync
+          emerge -q dev-vcs/git
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Overlay'i tanıt
+        run: |
+          mkdir -p /etc/portage/repos.conf /etc/portage/package.accept_keywords
+          printf '[animecix]\nlocation = %s\n' "$GITHUB_WORKSPACE" \
+            > /etc/portage/repos.conf/animecix.conf
+          echo 'media-video/animecix ~amd64' \
+            > /etc/portage/package.accept_keywords/animecix
+      - name: Derle ve kur
+        env:
+          ACCEPT_KEYWORDS: "~amd64"
+          FEATURES: "-sandbox -usersandbox -ipc-sandbox -network-sandbox -pid-sandbox"
+        run: |
+          emerge --autounmask-continue=y -av media-video/animecix
+          emerge -q x11-misc/xvfb
+      - name: Duman testi
+        run: |
+          xvfb-run -a animecix --check-icons
+          xvfb-run -a animecix --check-shaders
+          animecix-calendar --check

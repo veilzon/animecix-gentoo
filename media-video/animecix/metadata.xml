@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>veilzon@users.noreply.github.com</email>
+    <name>veilzon</name>
+  </maintainer>
+  <longdescription>
+    AnimeciX; GTK4/libadwaita ile yazılmış, libmpv tabanlı Türkçe anime,
+    dizi ve film izleme istemcisidir. İndirme yöneticisi, yayın takibi,
+    intro/outro atlama ve çevrimdışı oynatma içerir.
+  </longdescription>
+  <upstream>
+    <remote-id type="github">veilzon/animecix-linux</remote-id>
+  </upstream>
+</pkgmetadata>
