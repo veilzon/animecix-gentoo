@@ -24,7 +24,7 @@ PV="${TAG#v}"
 
 PKGDIR="media-video/animecix"
 EBUILD="${PKGDIR}/animecix-${PV}.ebuild"
-TEMPLATE="${PKGDIR}/animecix-1.4.5.ebuild.in"
+TEMPLATE="scripts/templates/animecix.ebuild.in"
 [[ -f "$TEMPLATE" ]] || die "şablon bulunamadı: $TEMPLATE"
 
 TMP="$(mktemp -d)"

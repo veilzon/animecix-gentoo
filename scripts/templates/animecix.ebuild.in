@@ -7,7 +7,7 @@ CRATES="
 @CRATES@
 "
 
-inherit cargo
+inherit cargo desktop
 
 DESCRIPTION="Türkçe anime izleme uygulaması (GTK4/libadwaita + mpv)"
 HOMEPAGE="https://github.com/veilzon/animecix-linux"
@@ -15,7 +15,7 @@ SRC_URI="https://github.com/veilzon/animecix-linux/archive/refs/tags/v${PV}.tar.
 	${CARGO_CRATE_URIS}"
 S="${WORKDIR}/animecix-linux-${PV}"
 
-LICENSE="MIT"
+LICENSE="MIT CC-BY-SA-3.0 OFL-1.1"
 SLOT="0"
 KEYWORDS="~amd64"
 
@@ -27,7 +27,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	virtual/rust
+	${RUST_DEPEND}
 	dev-build/cmake
 	llvm-core/clang
 	dev-lang/perl
@@ -52,6 +52,11 @@ src_install() {
 	for size in 64 128 256 512; do
 		newicon -s "${size}" "assets/icon-${size}.png" tr.com.animecix.png
 	done
+
+	insinto /usr/share/licenses/${PN}
+	doins LICENSE
+	newins assets/fonts/OFL.txt Montserrat-OFL.txt
+	newins assets/ATTRIBUTION-Adwaita.md Adwaita-ATTRIBUTION.md
 
 	insinto /usr/share/animecix
 	doins assets/ATTRIBUTION-Adwaita.md
