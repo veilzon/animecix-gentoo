@@ -61,7 +61,7 @@ jobs:
         run: |
           getuto
           emerge --autounmask-continue=y -v media-video/animecix
-          emerge -q x11-misc/xvfb
+          emerge -q x11-misc/xvfb-run
       - name: Duman testi
         run: |
           xvfb-run -a animecix --check-icons
