@@ -1,0 +1,4 @@
+.sdd/
+*.tar.gz
+*.ebuild.new
+distfiles/
