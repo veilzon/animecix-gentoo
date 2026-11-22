@@ -60,6 +60,7 @@ src_install() {
 	doins LICENSE
 	newins assets/fonts/OFL.txt Montserrat-OFL.txt
 	newins assets/ATTRIBUTION-Adwaita.md Adwaita-ATTRIBUTION.md
+	newins assets/ATTRIBUTION-yggstack.md yggstack-ATTRIBUTION.md
 
 	insinto /usr/share/animecix
 	doins assets/ATTRIBUTION-Adwaita.md
