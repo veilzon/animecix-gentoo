@@ -268,6 +268,7 @@ inherit cargo desktop
 DESCRIPTION="Türkçe anime izleme uygulaması (GTK4/libadwaita + mpv)"
 HOMEPAGE="https://github.com/veilzon/animecix-linux"
 SRC_URI="https://github.com/veilzon/animecix-linux/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
+	https://github.com/DrewCyber/yggstack-ng/releases/download/v0.0.5/yggstack-linux-amd64 -> yggstack-linux-amd64-0.0.5
 	${CARGO_CRATE_URIS}"
 S="${WORKDIR}/animecix-linux-${PV}"
 
@@ -278,6 +279,7 @@ KEYWORDS="~amd64"
 RDEPEND="
 	gui-libs/gtk:4
 	gui-libs/libadwaita
+	media-libs/alsa-lib
 	media-video/mpv[libmpv]
 	net-misc/aria2
 "
@@ -298,6 +300,7 @@ src_compile() {
 src_install() {
 	dobin "$(cargo_target_dir)/animecix"
 	dobin "$(cargo_target_dir)/animecix-calendar"
+	newbin "${DISTDIR}/yggstack-linux-amd64-0.0.5" yggstack
 
 	domenu "${FILESDIR}/tr.com.animecix.desktop"
 
@@ -321,6 +324,8 @@ src_install() {
 	exeinto /usr/share/animecix
 	doexe packaging/post-install-cleanup.sh packaging/post-remove-cleanup.sh
 }
+
+QA_PREBUILT="usr/bin/yggstack"
 
 pkg_postinst() {
 	sh "${EROOT}/usr/share/animecix/post-install-cleanup.sh" || :
