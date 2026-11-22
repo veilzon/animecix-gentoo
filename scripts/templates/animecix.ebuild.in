@@ -60,7 +60,20 @@ src_install() {
 	doins LICENSE
 	newins assets/fonts/OFL.txt Montserrat-OFL.txt
 	newins assets/ATTRIBUTION-Adwaita.md Adwaita-ATTRIBUTION.md
-	newins assets/ATTRIBUTION-yggstack.md yggstack-ATTRIBUTION.md
+	if [[ -f assets/ATTRIBUTION-yggstack.md ]]; then
+		newins assets/ATTRIBUTION-yggstack.md yggstack-ATTRIBUTION.md
+	else
+		cat > "${T}/yggstack-ATTRIBUTION.md" <<'EOF'
+# yggstack (yggstack-ng)
+
+- Proje: https://github.com/DrewCyber/yggstack-ng
+- Sürüm: v0.0.5
+- Kaynak kodu: https://github.com/DrewCyber/yggstack-ng/tree/v0.0.5
+- Lisans: MPL-2.0 - https://mozilla.org/MPL/2.0/
+EOF
+		insinto /usr/share/animecix
+		doins "${T}/yggstack-ATTRIBUTION.md"
+	fi
 
 	insinto /usr/share/animecix
 	doins assets/ATTRIBUTION-Adwaita.md
